@@ -46,7 +46,7 @@
     "updater": {
       "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEQ1N0IzRThCMjQ0QjNFQjQKUldTMFBrc2tpejU3MWZpb2dya3QvR1Z6K2RnRndLMUtla0ozUWFBRGt6RHJrcTJ4Z1BrREN4THAK",
       "endpoints": [
-        "https://github.com/arnobmridha90/jarvis/releases/latest/download/latest.json"
+        "https://github.com/arnobmridha90/Jarvis/releases/latest/download/latest.json"
       ],
       "windows": {
         "installMode": "passive"
