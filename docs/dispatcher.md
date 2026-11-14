@@ -1,7 +1,7 @@
 # Jarvis dispatcher
 
 Prompt for the Claude scheduled task "Jarvis dispatcher". It runs every `settings.dispatch_minutes`
-(default 60). Scheduled tasks can't run more often than hourly, so a faster setting runs as a
+(default 15). Scheduled tasks can't run more often than hourly, so a faster setting runs as a
 dedicated dispatcher thread that wakes itself every N minutes with `send_later`. It falls back to hourly
 from 11 PM to 7 AM Singapore time unless something is pending and connects the app's Projects tab to Arnob's Claude projects. Each project's
 coordinator session acts as Jarvis's assistant for that project.
@@ -26,6 +26,7 @@ coordinator session acts as Jarvis's assistant for that project.
 4. **Collect results.** For commands that are `sent`, run `get_session` on the target. When its summary shows the request
    was handled, set `status = 'done'` and `reply` = one short sentence on the outcome. If it's waiting on Arnob, put that in `reply`.
    Mark a command `failed` if it's still not done after 24 hours, with the reason.
+   **Tell Arnob** each time a command turns `done` or `failed`: post one short message in the dispatcher's thread, e.g. "Done in Orbique & Kozi: booking button added to the homepage."
 5. **Refresh status** for projects checked more than 2 hours ago: `status_summary` (2 sentences max),
    `needs_you` (or null), and `checked_at = now()`. Use `get_session` summaries only. Never message a thread just to check on it.
 6. **Keep the schedule in sync.** At 60, keep the hourly scheduled task. Below 60, schedule the next wake with `send_later(delay_minutes = dispatch_minutes)`.
