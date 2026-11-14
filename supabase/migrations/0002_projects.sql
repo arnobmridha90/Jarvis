@@ -31,8 +31,8 @@ create table public.commands (
 create index commands_pending on public.commands(status, created_at);
 create trigger commands_touch before update on public.commands for each row execute function public.touch();
 
-alter table public.settings add column dispatch_minutes smallint not null default 15
-  check (dispatch_minutes in (5, 10, 15, 30, 60));
+alter table public.settings add column dispatch_minutes smallint not null default 60
+  check (dispatch_minutes in (2, 5, 15, 60));
 
 do $$
 declare t text;

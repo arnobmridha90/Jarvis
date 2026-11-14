@@ -82,7 +82,7 @@ export default function Settings({ settings }: { settings: S | null }) {
         <h2>Projects</h2>
         <p className="muted small">How often Jarvis passes your requests to your Claude projects and refreshes their status. Shorter is faster but uses more of your Claude plan.</p>
         <select value={s.dispatch_minutes} onChange={(e) => patch({ dispatch_minutes: Number(e.target.value) })}>
-          {[5, 10, 15, 30, 60].map((m) => <option key={m} value={m}>Every {m} minutes</option>)}
+          {[2, 5, 15, 60].map((m) => <option key={m} value={m}>{m === 60 ? "Every hour (light on your plan)" : `Every ${m} minutes (uses much more of your plan)`}</option>)}
         </select>
       </section>
 

@@ -19,6 +19,18 @@ export default function Projects({ dispatchMinutes }: { dispatchMinutes: number 
     await supabase.from("commands").insert({ text: text.trim(), project_id: target === "auto" ? null : target });
     setText("");
   }
+
+  // Instant path: copy the request and open the project in Claude, where you paste and send it yourself.
+  async function sendNow() {
+    const p = projects.rows.find((x) => x.id === target);
+    if (!p?.channel_id || !text.trim()) return;
+    try { await navigator.clipboard.writeText(text.trim()); } catch { /* clipboard blocked: text stays in the box */ }
+    await supabase.from("commands").insert({ text: text.trim(), project_id: p.id, status: "sent", sent_at: new Date().toISOString(), via: "direct" });
+    const url = `https://claude.ai/code/project/${p.channel_id}`;
+    try { const { openUrl } = await import("@tauri-apps/plugin-opener"); await openUrl(url); } catch { window.open(url, "_blank"); }
+    setText("");
+  }
+  const canSendNow = Boolean(projects.rows.find((x) => x.id === target)?.channel_id);
   async function addProject() {
     if (!newName.trim()) return;
     await supabase.from("projects").insert({ name: newName.trim() });
@@ -30,7 +42,7 @@ export default function Projects({ dispatchMinutes }: { dispatchMinutes: number 
     <div className="stack">
       <section className="card">
         <h2>Tell a project what to do</h2>
-        <p className="muted small">Jarvis passes it to that project's Claude within {dispatchMinutes} minutes. Anything risky still asks you in that project first.</p>
+        <p className="muted small">"Send now" copies your request and opens that project in Claude so you can paste it in instantly. "Let Jarvis deliver it" sends it for you within {dispatchMinutes} minutes. Either way, anything risky still asks you in that project first.</p>
         <div className="row wrap">
           <select value={target} onChange={(e) => setTarget(e.target.value)}>
             <option value="auto">Let Jarvis pick</option>
@@ -38,7 +50,10 @@ export default function Projects({ dispatchMinutes }: { dispatchMinutes: number 
           </select>
         </div>
         <textarea rows={3} placeholder="e.g. Add a booking button to the Kozi homepage" value={text} onChange={(e) => setText(e.target.value)} />
-        <button className="primary" disabled={!text.trim()} onClick={send}>Send to project</button>
+        <div className="row wrap">
+          <button className="primary" disabled={!text.trim() || !canSendNow} onClick={sendNow} title="Copies your request and opens the project in Claude">Send now in Claude</button>
+          <button disabled={!text.trim()} onClick={send}>Let Jarvis deliver it</button>
+        </div>
       </section>
 
       <section className="card">

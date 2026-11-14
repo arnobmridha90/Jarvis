@@ -58,7 +58,7 @@ export default function App() {
       )}
       <main>
         {tab === "home" && <Home voiceEnabled={!!settings?.voice_enabled} />}
-        {tab === "projects" && <Projects dispatchMinutes={settings?.dispatch_minutes ?? 15} />}
+        {tab === "projects" && <Projects dispatchMinutes={settings?.dispatch_minutes ?? 60} />}
         {tab === "knows" && <Knows />}
         {tab === "reminders" && <Reminders />}
         {tab === "places" && <Places />}
