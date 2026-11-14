@@ -12,7 +12,7 @@ Arnob's personal assistant: a Windows app and an Android app built from one code
 Home (briefing, suggestions with 👍/👎, reminders, "Tell Jarvis"), Projects (send requests to each Claude project, see status), Knows (view/edit/delete everything Jarvis has learned), Reminders, Places (restaurants from screenshots), Settings (briefing times, quiet days, time zone, learning sources, suggestions per day, voice, updates).
 
 ## One-time setup
-1. Apply `supabase/migrations/0001_init.sql` to the Supabase project. In Auth, then Email Templates, put `{{ .Token }}` in the Magic Link template so sign-in emails carry a 6-digit code.
+1. Apply the migrations in `supabase/migrations` to the Supabase project.
 2. Fill `.env.production` with the project URL and publishable key (both are public by design).
 3. Add repository secrets: `TAURI_SIGNING_PRIVATE_KEY`, `ANDROID_KEYSTORE_B64`, `ANDROID_KEYSTORE_PASSWORD`.
 4. After signing in on both devices, turn off new sign-ups in Supabase Auth.
