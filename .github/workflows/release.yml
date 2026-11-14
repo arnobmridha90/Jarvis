@@ -120,7 +120,8 @@ jobs:
           NOTES: ${{ github.event.head_commit.message }}
         run: |
           BASE="https://github.com/$REPO/releases/download/v$VERSION"
-          jq -n --arg v "$VERSION" --arg notes "${NOTES:-Update}" --arg date "$(date -u +%FT%TZ)" \
+          NOTES=$(printf "%s" "${NOTES:-Update}" | head -1)
+          jq -n --arg v "$VERSION" --arg notes "$NOTES" --arg date "$(date -u +%FT%TZ)" \
                 --arg sig "$(cat dist/windows/Jarvis-setup.exe.sig)" --arg base "$BASE" '{
             version: $v, notes: $notes, pub_date: $date,
             platforms: { "windows-x86_64": { signature: $sig, url: "\($base)/Jarvis-setup.exe" } },
@@ -132,5 +133,5 @@ jobs:
           REPO: ${{ github.repository }}
           NOTES: ${{ github.event.head_commit.message }}
         run: |
-          gh release create "v$VERSION" --repo "$REPO" --title "Jarvis $VERSION" --notes "${NOTES:-Update}" \
+          gh release create "v$VERSION" --repo "$REPO" --title "Jarvis $VERSION" --notes "$(printf "%s" "${NOTES:-Update}" | head -1)" \
             dist/windows/Jarvis-setup.exe dist/windows/Jarvis-setup.exe.sig dist/android/Jarvis.apk latest.json

@@ -149,10 +149,6 @@ alter publication supabase_realtime add table
   public.settings, public.memories, public.suggestions, public.briefings,
   public.reminders, public.restaurants, public.inbox;
 
--- Public bucket that holds the update feed and installers (no personal data in it).
-insert into storage.buckets (id, name, public) values ('releases', 'releases', true)
-  on conflict (id) do nothing;
-
 -- Private bucket for screenshots Arnob shares from his phone (restaurants, flights, anything).
 insert into storage.buckets (id, name, public) values ('screenshots', 'screenshots', false)
   on conflict (id) do nothing;
