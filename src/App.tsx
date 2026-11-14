@@ -8,9 +8,10 @@ import Home from "./screens/Home";
 import Knows from "./screens/Knows";
 import Settings from "./screens/Settings";
 import { Places, Reminders } from "./screens/Lists";
+import Projects from "./screens/Projects";
 import "./styles.css";
 
-const TABS = [["home", "Home"], ["knows", "Knows"], ["reminders", "Reminders"], ["places", "Places"], ["settings", "Settings"]] as const;
+const TABS = [["home", "Home"], ["projects", "Projects"], ["knows", "Knows"], ["reminders", "Reminders"], ["places", "Places"], ["settings", "Settings"]] as const;
 type Tab = (typeof TABS)[number][0];
 
 export default function App() {
@@ -57,6 +58,7 @@ export default function App() {
       )}
       <main>
         {tab === "home" && <Home voiceEnabled={!!settings?.voice_enabled} />}
+        {tab === "projects" && <Projects dispatchMinutes={settings?.dispatch_minutes ?? 15} />}
         {tab === "knows" && <Knows />}
         {tab === "reminders" && <Reminders />}
         {tab === "places" && <Places />}

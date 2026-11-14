@@ -79,6 +79,14 @@ export default function Settings({ settings }: { settings: S | null }) {
       </section>
 
       <section className="card">
+        <h2>Projects</h2>
+        <p className="muted small">How often Jarvis passes your requests to your Claude projects and refreshes their status. Shorter is faster but uses more of your Claude plan.</p>
+        <select value={s.dispatch_minutes} onChange={(e) => patch({ dispatch_minutes: Number(e.target.value) })}>
+          {[5, 10, 15, 30, 60].map((m) => <option key={m} value={m}>Every {m} minutes</option>)}
+        </select>
+      </section>
+
+      <section className="card">
         <h2>Voice</h2>
         <label className="toggle">
           <input type="checkbox" checked={s.voice_enabled} onChange={(e) => patch({ voice_enabled: e.target.checked })} />
