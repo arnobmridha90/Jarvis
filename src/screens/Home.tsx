@@ -24,10 +24,10 @@ export default function Home({ voiceEnabled }: { voiceEnabled: boolean }) {
     if (voiceEnabled) {
       const r = await ask(t);
       if (r.answer) { setNote(r.answer); if (via === "voice") speak(r.answer); return; }
-      setNote("Saved. Jarvis will pick it up on the next learning run.");
+      setNote("Got it. Jarvis will handle it within 15 minutes.");
     } else {
       await supabase.from("inbox").insert({ text: t, via });
-      setNote("Saved. Jarvis will learn from it tonight.");
+      setNote("Got it. Jarvis will handle it within 15 minutes. Answers appear under Latest briefing.");
     }
     setText("");
   }
